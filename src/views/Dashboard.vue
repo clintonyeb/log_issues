@@ -486,16 +486,30 @@
           </div>
           <br/>  
 
-         --> 
-
-         <ul class="icons-list" >
-    
-               <li v-for="n in logs" ><button  type="button" class="btn btn-link px-0" @click="details" ><div style="word-wrap:normal">{{ n }}</div></button></li>
+         -->  
+          <ul class="icons-list">
+                <li v-for="n in logs">
+                  <i class="icon-screen-desktop bg-primary"></i>
+                  <div class="desc">
+                    <button type="button"  class="btn btn-link px-0" @click="details">{{ n }}</button>
+                  </div>
+               
+                  <div class="actions">
+                    <button type="button" class="btn btn-link text-muted"><i class="icon-settings"></i></button>
+                  </div>
+                </li>
                 
-         </ul>
-        
-          
- <b-table  style="position: fixed; bottom: 50px;"  class="table-outline mb-0" hover responsive outline
+              </ul>
+
+
+      <!--   <ul class="icons-list" >
+    
+               <li style="position:auto;" v-for="n in logs" ><button  type="button" class="btn btn-link px-0" @click="details" ><div style="word-wrap:normal">{{ n }}</div></button></li>
+                
+         </ul> -->
+
+
+ <b-table style="position:absolute;left:220px;bottom:50px;width:83%;"  class="table-outline mb-0" hover responsive outline
             :items="tableItems"
             :fields="tableFields"
             head-variant="default"
@@ -532,7 +546,7 @@
               <span style="color:green">{{ "Resolved" }}</span>
             </template>
             <template slot="activity" scope="item">
-              <p > <button  type="button" class="btn btn-link px-0" >View Full Ticket</button></p>
+              <p > <button  type="button" class="btn btn-outline-primary" >View Full Ticket</button></p>
               <strong>{{item.value}}</strong>
             </template>
           </b-table>
@@ -540,6 +554,8 @@
       </div><!--/.col-->
     </div><!--/.row-->
   </div>
+
+
 </template>
 
 <script>

@@ -18,7 +18,7 @@
                 </div>
                 <div class="row">
                   <div class="col-6">
-                  <span>{{ this.status }}</span>
+                  <span style="color:red">{{ this.status }}</span>
                   </div>
                   <br><br>
                 </div>  
