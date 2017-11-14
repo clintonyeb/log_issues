@@ -14,7 +14,7 @@ export default {
       name: 'UI elements'
     },
     {
-      name: 'Components',
+      name: 'Logs',
       url: '/components',
       icon: 'icon-puzzle',
       children: [
@@ -56,7 +56,7 @@ export default {
       ]
     },
     {
-      name: 'Icons',
+      name: 'Filters',
       url: '/icons',
       icon: 'icon-star',
       children: [
@@ -74,7 +74,7 @@ export default {
     },
     {
       name: 'Widgets',
-      url: '/widgets',
+      url: '/',
       icon: 'icon-calculator',
       badge: {
         variant: 'danger',
@@ -82,7 +82,7 @@ export default {
       }
     },
     {
-      name: 'Charts',
+      name: 'All Anomalies',
       url: '/charts',
       icon: 'icon-pie-chart'
     },
@@ -120,5 +120,27 @@ export default {
         }
       ]
     }
-  ]
+  ],
+  methods: {
+    get_user_info () {
+      this.$store.dispatch('get_user_info', this.$session.get('oauth')).then(response => {
+        return response
+      },
+      error => {
+        console.log(error)
+      }).then(data => {
+        console.log(data)
+      })
+    },
+    get_sources () {
+
+    },
+    get_logs () {
+
+    }
+  },
+  beforeMount () {
+    this.get_user_info()
+  }
+
 }

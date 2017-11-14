@@ -4,6 +4,7 @@ import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
 import App from './App'
 import router from './router'
+import { store } from './helper/ApiClass'
 import VueResource from 'vue-resource'
 import VueSession from 'vue-session'
 
@@ -23,6 +24,7 @@ Vue.http.headers.common['Access-Control-Allow-Headers'] = 'Origin, Accept, Conte
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  store,
   router,
   template: '<App/>',
   components: {

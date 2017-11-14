@@ -473,7 +473,8 @@
                   <div class="value">
                     <div class="small text-muted">Uploaded</div>
                     <strong>12.125</strong>
-                  </div>
+                  </div
+
                   <div class="actions">
                     <button type="button" class="btn btn-link text-muted"><i class="icon-settings"></i></button>
                   </div>
@@ -486,12 +487,12 @@
           </div>
           <br/>  
 
-         -->  
+         
           <ul class="icons-list">
-                <li v-for="n in logs">
+                <li v-for = "n in logs"  >
                   <i class="icon-screen-desktop bg-primary"></i>
-                  <div class="desc">
-                    <button type="button"  class="btn btn-link px-0" @click="details">{{ n }}</button>
+                  <div class="desc" >
+                    <button  type="button" style="white-space: normal; text-align:left; width:85%; height: 40px "  class="btn btn-link px-0" @click="load_issues">{{ n }}</button>
                   </div>
                
                   <div class="actions">
@@ -499,7 +500,7 @@
                   </div>
                 </li>
                 
-              </ul>
+              </ul> 
 
 
       <!--   <ul class="icons-list" >
@@ -508,7 +509,7 @@
                 
          </ul> -->
 
-
+<!--
  <b-table style="position:absolute;left:220px;bottom:50px;width:83%;"  class="table-outline mb-0" hover responsive outline
             :items="tableItems"
             :fields="tableFields"
@@ -549,7 +550,68 @@
               <p > <button  type="button" class="btn btn-outline-primary" >View Full Ticket</button></p>
               <strong>{{item.value}}</strong>
             </template>
-          </b-table>
+          </b-table>  -->
+<div style="width:100%; height:250px; overflow:auto; top:100px;position:fixed">
+        <table class="table" id="table-1">
+          <thead  class="thead-inverse">
+            <tr >
+             
+              <th width="5%" ></th>
+              <th>Logs  </th>
+               <th ></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="n in logs" >
+                <td ><button type="button" class="btn btn-outline-info active" @click="load_issues"><i class="fa fa-angle-double-down"></i></button></td>
+              <td width="70%">{{ n }}</td>
+            
+              <td >
+              <div class="btn-group">
+              <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               <i class="fa fa-link fa-lg"></i>
+              </button>
+              <div class="dropdown-menu">
+              <a class="dropdown-item" href="#">Action</a>
+              <a class="dropdown-item" href="#">Another action</a>
+              <a class="dropdown-item" href="#">Something else here</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Separated link</a>
+              </div>
+              </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+          
+<div style="width:100%; height:250px; overflow:auto; bottom:50px;position:fixed;">
+        <table class="table" id="table-1">
+          <thead  class="thead-inverse" >
+            <tr>
+              
+              <th width="60%">Issues</th>
+              <th width="12%">Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item in tableItems">
+              
+              <td width="60%"><span>{{item.issue_header}}</span><br>
+              <div style="white-space: pre;">
+              <small>{{item.issue_resolution}}</small>
+              </div></td>
+              <td><span style="color:green">{{"Resolved "}}</span></td>
+              <td ><button type="button" class="btn btn-secondary btn-sm">&nbsp; View Ticket</button></td>
+            </tr>
+            
+          </tbody>
+        </table>
+
+      </div>
+
         </b-card>
       </div><!--/.col-->
     </div><!--/.row-->
@@ -559,13 +621,18 @@
 </template>
 
 <script>
+// import { store } from '../helper/ApiClass'
 import CardLine1ChartExample from './dashboard/CardLine1ChartExample'
 import CardLine2ChartExample from './dashboard/CardLine2ChartExample'
 import CardLine3ChartExample from './dashboard/CardLine3ChartExample'
 import CardBarChartExample from './dashboard/CardBarChartExample'
 import MainChartExample from './dashboard/MainChartExample'
 import SocialBoxChartExample from './dashboard/SocialBoxChartExample'
+// import { mapActions } from 'vuex'
 import { Callout } from '../components/'
+// import Vue from 'vue'
+// var eventHub = new Vue()
+// import eventHub from '../main.js'
 
 export default {
   name: 'dashboard',
@@ -675,50 +742,34 @@ export default {
       }
       return $variant
     },
-    get_data1 () {
-      this.$http.post('http://Tailsensesvc-env.izvbyfxjqn.us-east-2.elasticbeanstalk.com/v1/get_dummy_logs', [], {
-        headers: {
-          'accept': 'application/json',
-          'content-type': 'application/json',
-          'Authorization': this.$session.get('oauth')
+    load_issues () {
+      this.$store.dispatch('get_random_issues', this.$session.get('oauth')).then(response => {
+        return response
+      },
+      error => {
+        console.log(error)
+      }).then(data => {
+        // this.tableItems = []
+        for (let key in data) {
+          this.tableItems.push(data[key])
+          console.log(data[key])
         }
       })
-        .then(response => {
-          return response.json()
-        },
-        error => {
-          console.log(error + '' + 'ram')
-        }).then(data => {
-          // const logsArray = []
-          for (let key in data) {
-            this.logs.push(data[key].log_text_long)
-          }
-        })
-    },
-    details () {
-      this.$http.post('http://Tailsensesvc-env.izvbyfxjqn.us-east-2.elasticbeanstalk.com/v1/show_random_issues', [], {
-        headers: {
-          'accept': 'application/json',
-          'content-type': 'application/json',
-          'Authorization': this.$session.get('oauth')
-        }
-      })
-        .then(response => {
-          return response.json()
-        },
-        error => {
-          console.log(error + '' + 'ram')
-        }).then(data => {
-          this.tableItems = []
-          for (let key in data) {
-            this.tableItems.push(data[key])
-            console.log(data[key])
-          }
-        })
     }
   },
   beforeMount () {
-    this.get_data1()
+    this.$store.dispatch('get_dummy_logs', this.$session.get('oauth')).then(response => {
+      return response
+    },
+    error => {
+      console.log(error)
+    }).then(data => {
+      for (let key in data) {
+        this.logs.push(data[key].log_text_long)
+      }
+    })
   }
 }
 </script>
+
+

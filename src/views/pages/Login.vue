@@ -24,7 +24,7 @@
                 </div>  
                 <div class="row">
                   <div class="col-6">
-                    <button type="button" class="btn btn-primary px-4" @click="submit" >Login</button>
+                    <button type="button" class="btn btn-primary px-4" @click="authenticate" >Login</button>
                   </div>
                   <div class="col-6 text-right">
                     <button type="button" class="btn btn-link px-0">Forgot password?</button>
@@ -41,6 +41,7 @@
 </template>
 
 <script>
+// import Apilist from '../helper/Apilist'
 export default {
   name: 'Login',
   data () {
@@ -58,28 +59,22 @@ export default {
     checklogin () {
       if (this.user.loggedin) {
         this.$session.set('oauth', this.user.oauth)
+        this.$session.set('email', this.user.email)
         this.$router.push('dashboard')
       }
     },
-    submit () {
-      this.$http.post('http://tailsensesvc-env.izvbyfxjqn.us-east-2.elasticbeanstalk.com/v1/authenticate', this.user, {
-        headers: {
-          'accept': 'application/json',
-          'content-type': 'application/json'
-        }
+    authenticate () {
+      this.$store.dispatch('authenticate', this.user).then(response => {
+        return response
+      },
+      error => {
+        console.log(error)
+      }).then(data => {
+        this.user.oauth = data['auth_token']
+        this.user.loggedin = true
+        console.log(this.user.oauth)
+        this.checklogin()
       })
-        .then(response => {
-          return response.json()
-        },
-        error => {
-          this.status = 'Invalid Username and Password'
-          console.log(error + '' + 'ram')
-        }).then(data => {
-          this.user.oauth = data['auth_token']
-          this.user.loggedin = true
-          console.log(this.user.oauth)
-          this.checklogin()
-        })
     }
   }
 }
