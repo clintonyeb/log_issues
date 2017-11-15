@@ -1,7 +1,7 @@
 <template>
   <div class="animated fadeIn">
 
-<div style="width:100%; height:250px; overflow:auto; top:100px;position:fixed">
+<div style="width:100%; height:650px; overflow:auto; top:100px;position:fixed">
         <table class="table" id="table-1">
           <thead  class="thead-inverse">
             <tr >
@@ -36,7 +36,7 @@
 
       </div>
           
-<div style="width:100%; height:250px; overflow:auto; bottom:50px;position:fixed;">
+<div style="width:100%; height:150px; overflow:auto; bottom:50px;position:fixed;">
         <table class="table" id="table-1">
           <thead  class="thead-inverse" >
             <tr>
@@ -72,12 +72,14 @@
 
 <script>
 import { Callout } from '../components/'
+import { WebSocketCollection } from '../helper/WebSocketCollection'
 // import Vue from 'vue'
 // var eventHub = new Vue()
 // import eventHub from '../main.js'
 
 export default {
   name: 'dashboard',
+  mixins: [WebSocketCollection],
   components: {
     Callout
   },
@@ -104,7 +106,9 @@ export default {
     }
   },
   methods: {
-    connect_data  () {
+    connect_data () {
+      this.addSocket('ws://ec2-18-220-63-112.us-east-2.compute.amazonaws.com:8080/Javemonitor/datachannel/log:74af15fa-a797-438a-a4ef-54a8de6ca4ef:213')
+      this.attachListToSocket('ws://ec2-18-220-63-112.us-east-2.compute.amazonaws.com:8080/Javemonitor/datachannel/log:74af15fa-a797-438a-a4ef-54a8de6ca4ef:213', this.logs, 20)
     },
     variant (value) {
       let $variant
@@ -134,7 +138,7 @@ export default {
       })
     }
   },
-  beforeMount () {
+  /* beforeMount () {
     this.$store.dispatch('get_dummy_logs', this.$session.get('oauth')).then(response => {
       return response
     },
@@ -145,6 +149,9 @@ export default {
         this.logs.push(data[key].log_text_long)
       }
     })
+  }, */
+  created () {
+    this.connect_data()
   }
 }
 </script>
