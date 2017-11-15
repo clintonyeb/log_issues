@@ -8275,7 +8275,7 @@ base-chart.chart {
       line-height: 35px !important;
       text-align: center; }
     .icons-list li .desc {
-      height: 40px;
+      height: 80px;
       margin-left: 50px;
       border-bottom: 1px solid #c2cfd6; }
       .icons-list li .desc .title {

@@ -3,6 +3,7 @@
 </template>
 
 <script>
+// import { store } from './helper/ApiClass'
 export default {
   name: 'app'
 }
