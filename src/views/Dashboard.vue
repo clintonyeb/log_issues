@@ -36,7 +36,7 @@
       </div>
           
 <div v-bind:style="styleissues">
-        <table class="table" id="table-1">
+<table class="table" id="table-1">
           <thead  class="thead-inverse" >
             <tr>
               
@@ -70,29 +70,17 @@
 </template>
 
 <script>
-// import { store } from '../helper/ApiClass'
-import CardLine1ChartExample from './dashboard/CardLine1ChartExample'
-import CardLine2ChartExample from './dashboard/CardLine2ChartExample'
-import CardLine3ChartExample from './dashboard/CardLine3ChartExample'
-import CardBarChartExample from './dashboard/CardBarChartExample'
-import MainChartExample from './dashboard/MainChartExample'
-import SocialBoxChartExample from './dashboard/SocialBoxChartExample'
-// import { mapActions } from 'vuex'
 import { Callout } from '../components/'
+import { WebSocketCollection } from '../helper/WebSocketCollection'
 // import Vue from 'vue'
 // var eventHub = new Vue()
 // import eventHub from '../main.js'
 
 export default {
   name: 'dashboard',
+  mixins: [WebSocketCollection],
   components: {
-    Callout,
-    CardLine1ChartExample,
-    CardLine2ChartExample,
-    CardLine3ChartExample,
-    CardBarChartExample,
-    MainChartExample,
-    SocialBoxChartExample
+    Callout
   },
   data: function () {
     return {
@@ -130,6 +118,10 @@ export default {
     }
   },
   methods: {
+    connect_data () {
+      this.addSocket('ws://ec2-18-220-63-112.us-east-2.compute.amazonaws.com:8080/Javemonitor/datachannel/log:74af15fa-a797-438a-a4ef-54a8de6ca4ef:213')
+      this.attachListToSocket('ws://ec2-18-220-63-112.us-east-2.compute.amazonaws.com:8080/Javemonitor/datachannel/log:74af15fa-a797-438a-a4ef-54a8de6ca4ef:213', this.logs, 20)
+    },
     variant (value) {
       let $variant
       if (value <= 25) {
@@ -167,7 +159,7 @@ export default {
       this.stylelogs.height = '250px'
     }
   },
-  beforeMount () {
+  /* beforeMount () {
     this.$store.dispatch('get_dummy_logs', this.$session.get('oauth')).then(response => {
       return response
     },
@@ -203,6 +195,10 @@ export default {
     }).then(data => {
       console.log(data)
     })
+=======
+  }, */
+  created () {
+    this.connect_data()
   }
 }
 </script>
