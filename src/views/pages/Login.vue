@@ -72,7 +72,6 @@ export default {
       }).then(data => {
         this.user.oauth = data['auth_token']
         this.user.loggedin = true
-        console.log(this.user.oauth)
         this.checklogin()
       })
     }

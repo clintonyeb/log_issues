@@ -32,7 +32,7 @@ export default {
         },
         error => {
           this.status = 'Invalid Username and Password'
-          console.log(error + '' + 'ram')
+          console.log(error)
         }).then(data => {
           this.user.oauth = data['auth_token']
           this.user.loggedin = true

@@ -16,131 +16,75 @@ export default {
     {
       name: 'Logs',
       url: '/components',
-      icon: 'icon-puzzle',
+      icon: '',
       children: [
-        {
-          name: 'Buttons',
-          url: '/components/buttons',
-          icon: 'icon-puzzle'
-        },
-        {
-          name: 'Social Buttons',
-          url: '/components/social-buttons',
-          icon: 'icon-puzzle'
-        },
-        {
-          name: 'Cards',
-          url: '/components/cards',
-          icon: 'icon-puzzle'
-        },
-        {
-          name: 'Forms',
-          url: '/components/forms',
-          icon: 'icon-puzzle'
-        },
-        {
-          name: 'Modals',
-          url: '/components/modals',
-          icon: 'icon-puzzle'
-        },
-        {
-          name: 'Switches',
-          url: '/components/switches',
-          icon: 'icon-puzzle'
-        },
-        {
-          name: 'Tables',
-          url: '/components/tables',
-          icon: 'icon-puzzle'
-        }
       ]
     },
     {
       name: 'Filters',
       url: '/icons',
-      icon: 'icon-star',
+      icon: '',
       children: [
-        {
-          name: 'Font Awesome',
-          url: '/icons/font-awesome',
-          icon: 'icon-star'
-        },
-        {
-          name: 'Simple Line Icons',
-          url: '/icons/simple-line-icons',
-          icon: 'icon-star'
-        }
+        // {
+        //   name: 'Font Awesome',
+        //   url: '/icons/font-awesome',
+        //   icon: 'icon-star'
+        // },
+        // {
+        //   name: 'Simple Line Icons',
+        //   url: '/icons/simple-line-icons',
+        //   icon: 'icon-star'
+        // }
       ]
     },
-    {
-      name: 'Widgets',
-      url: '/',
-      icon: 'icon-calculator',
-      badge: {
-        variant: 'danger',
-        text: 'NEW'
-      }
-    },
+    // {
+    //   name: 'Widgets',
+    //   url: '/',
+    //   icon: 'icon-calculator',
+    //   badge: {
+    //     variant: 'danger',
+    //     text: 'NEW'
+    //   }
+    // },
     {
       name: 'All Anomalies',
       url: '/charts',
       icon: 'icon-pie-chart'
-    },
-    {
-      divider: true
-    },
-    {
-      title: true,
-      name: 'Extras'
-    },
-    {
-      name: 'Pages',
-      url: '/pages',
-      icon: 'icon-star',
-      children: [
-        {
-          name: 'Login',
-          url: '/pages/login',
-          icon: 'icon-star'
-        },
-        {
-          name: 'Register',
-          url: '/pages/register',
-          icon: 'icon-star'
-        },
-        {
-          name: 'Error 404',
-          url: '/pages/404',
-          icon: 'icon-star'
-        },
-        {
-          name: 'Error 500',
-          url: '/pages/500',
-          icon: 'icon-star'
-        }
-      ]
     }
-  ],
-  methods: {
-    get_user_info () {
-      this.$store.dispatch('get_user_info', this.$session.get('oauth')).then(response => {
-        return response
-      },
-      error => {
-        console.log(error)
-      }).then(data => {
-        console.log(data)
-      })
-    },
-    get_sources () {
-
-    },
-    get_logs () {
-
-    }
-  },
-  beforeMount () {
-    this.get_user_info()
-  }
+    // {
+    //   divider: true
+    // },
+    // {
+    //   title: false,
+    //   name: 'Extras'
+    // },
+    // {
+    //   name: 'Pages',
+    //   url: '/pages',
+    //   icon: 'icon-star',
+    //   children: [
+    //     {
+    //       name: 'Login',
+    //       url: '/pages/login',
+    //       icon: 'icon-star'
+    //     },
+    //     {
+    //       name: 'Register',
+    //       url: '/pages/register',
+    //       icon: 'icon-star'
+    //     },
+    //     {
+    //       name: 'Error 404',
+    //       url: '/pages/404',
+    //       icon: 'icon-star'
+    //     },
+    //     {
+    //       name: 'Error 500',
+    //       url: '/pages/500',
+    //       icon: 'icon-star'
+    //     }
+    //   ]
+    // }
+  ]
 
 }

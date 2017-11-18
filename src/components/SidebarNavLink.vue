@@ -1,6 +1,6 @@
 <template>
   <router-link :to="url" class="nav-link">
-  {{name}}<i :class="icon"></i>
+  <i :class="icon"></i>{{name}}
     <b-badge :variant="badge.variant">{{badge.text}}</b-badge>
   </router-link>
 </template>
