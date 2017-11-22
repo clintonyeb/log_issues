@@ -3,8 +3,6 @@ import Vuex from 'vuex'
 import VueResource from 'vue-resource'
 import VueSession from 'vue-session'
 import BootstrapVue from 'bootstrap-vue'
-// import App from '../App'
-// import router from '../router'
 
 Vue.use(Vuex)
 Vue.use(VueSession)
@@ -16,9 +14,42 @@ export const store = new Vuex.Store({
     url: 'http://tailsensesvc-env.izvbyfxjqn.us-east-2.elasticbeanstalk.com',
     version: 'v1',
     url2: 'http://ec2-18-220-63-112.us-east-2.compute.amazonaws.com:8080/Javemonitor/webresources/',
-    dummy_logs: ''
+    currentLog: '',
+    logpath: '',
+    socketCollection: [],
+    currentSocket: '',
+    baseSocket: 'ws://ec2-18-220-63-112.us-east-2.compute.amazonaws.com:8080/Javemonitor/datachannel/'
   },
   actions: {
+    addSocket ({context, state}, socketurl) {
+      state.socketCollection[socketurl] = new WebSocket(socketurl)
+      state.socketCollection[socketurl].onopen = function (event) {
+        console.log('Connection opened successfully with the server')
+      }
+      state.socketCollection[socketurl].onclose = function (event) {
+        console.log('Connection close successfully with the server')
+      }
+    },
+    deleteSocket ({context, state}) {
+      state.socketCollection[state.currentSocket].close()
+      console.log('Socket deleted')
+      delete state.socketCollection[state.currentSocket]
+    },
+    getSocket ({context, state}, socketurl) {
+      return this.socketCollection[socketurl]
+    },
+    attachListToSocket ({context, state}, params) {
+      state.socketCollection[params.socketurl].onmessage = function (event) {
+        var dataObject = JSON.parse(event.data)
+        console.log(dataObject)
+        if (params.dataArray.length <= params.length) {
+          params.dataArray.push(dataObject.message)
+        } else {
+          params.dataArray.shift()
+          params.dataArray.push(dataObject.message)
+        }
+      }
+    },
     authenticate ({context, state}, params) {
       return new Promise((resolve, reject) => {
         setTimeout(() => {

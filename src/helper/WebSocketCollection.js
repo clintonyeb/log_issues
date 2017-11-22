@@ -16,6 +16,7 @@ export const WebSocketCollection = {
     },
     deleteSocket (socketurl) {
       this.socketCollection[socketurl].close()
+      console.log('Socket deleted')
       delete this.socketCollection[socketurl]
     },
     getSocket (socketurl) {
@@ -24,6 +25,7 @@ export const WebSocketCollection = {
     attachListToSocket (socketurl, dataArray, length) {
       this.socketCollection[socketurl].onmessage = function (event) {
         var dataObject = JSON.parse(event.data)
+        console.log(dataObject)
         if (dataArray.length <= length) {
           dataArray.push(dataObject.message)
         } else {
