@@ -165,6 +165,7 @@ export default {
     },
     connect_socket (obj) {
       if (obj.flag === 'logs') {
+        this.refreshdrop(nav.items[3].children)
         this.$store.state.currentLog = obj.logid
         this.$store.state.logpath = obj.log_path
         obj.icon = 'fa fa-check-circle fa-lg mt-4'
@@ -192,7 +193,7 @@ export default {
       }
     },
     geterror_anolmaies (flag) {
-      if (flag === 'anomalies') {
+      if (flag === 'ANOMALIES') {
         this.refreshdrop(nav.items[4].children)
         this.refreshdrop(nav.items)
         nav.items[5].icon = 'fa fa-check-square fa-lg mt-4'
@@ -200,8 +201,7 @@ export default {
         this.logs.splice(0, this.logs.length)
         this.finalurl = this.$store.state.baseSocket + 'anomalies:' + this.source_key + ':' + this.$store.state.currentLog
         this.connect_data(this.finalurl)
-        console.log(this.finalurl)
-      } else if (flag === 'errors') {
+      } else if (flag === 'ERRORS') {
         this.refreshdrop(nav.items[4].children)
         this.refreshdrop(nav.items)
         nav.items[6].icon = 'fa fa-check-square fa-lg mt-4'
@@ -209,18 +209,16 @@ export default {
         this.logs.splice(0, this.logs.length)
         this.finalurl = this.$store.state.baseSocket + 'errors:' + this.source_key + ':' + this.$store.state.currentLog
         this.connect_data(this.finalurl)
-        console.log(this.finalurl)
-      } else if (flag === 'allanomalies') {
+      } else if (flag === 'ALL_ANOMALIES') {
         this.logs.splice(0, this.logs.length)
         this.delete_socket()
         this.finalurl = this.$store.state.baseSocket + 'all_anomalies:' + this.source_key
-        console.log(this.finalurl)
         this.connect_data(this.finalurl)
       }
     }
   },
   beforeMount () {
-    this.get_user_info()
+    // this.get_user_info()
   }
 }
 </script>

@@ -17,7 +17,7 @@ export default {
     {
       name: 'All Anomalies',
       url: '',
-      flag: 'allanomalies',
+      flag: 'ALL_ANOMALIES',
       icon: ''
     },
     {
@@ -36,19 +36,20 @@ export default {
     },
     {
       name: 'Anomalies',
-      flag: 'anomalies',
+      flag: 'ANOMALIES',
       url: '',
       icon: 'icon-pie-chart'
     },
     {
       name: 'Errors',
-      flag: 'errors',
+      flag: 'ERRORS',
       url: '',
       icon: 'icon-pie-chart'
     }
   ],
   logs: [
   ],
-  currenturl: ''
+  currenturl: '',
+  logstosave: []
 
 }

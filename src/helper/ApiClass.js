@@ -16,6 +16,7 @@ export const store = new Vuex.Store({
     url2: 'http://ec2-18-220-63-112.us-east-2.compute.amazonaws.com:8080/Javemonitor/webresources/',
     currentLog: '',
     logpath: '',
+    enablesavelogs: false,
     socketCollection: [],
     currentSocket: '',
     baseSocket: 'ws://ec2-18-220-63-112.us-east-2.compute.amazonaws.com:8080/Javemonitor/datachannel/'
@@ -41,9 +42,9 @@ export const store = new Vuex.Store({
     attachListToSocket ({context, state}, params) {
       state.socketCollection[params.socketurl].onmessage = function (event) {
         var dataObject = JSON.parse(event.data)
-        console.log(dataObject)
         if (params.dataArray.length <= params.length) {
-          params.dataArray.push(dataObject.message)
+          params.dataArray.push(dataObject)
+          console.log(dataObject)
         } else {
           params.dataArray.shift()
           params.dataArray.push(dataObject.message)
@@ -213,7 +214,8 @@ export const store = new Vuex.Store({
               resolve(JSON.parse(returndata))
             }
           }
-          http.send(JSON.stringify({'request': {'classification_type': 2, 'log_id': 187, 'logList': [{'log_text': '192.168.72.177 - - [22/Dec/2002:23:32:15 -0400] \'GET /style.css HTTP/1.1\' 200 4138 www.yahoo.com \'http://www.yahoo.com/index.html\' \'Mozilla/5.0 (Windows...'}, {'log_text': '05:38:07 127.0.0.1 GET /js/ads.js 200'}]}}))
+          console.log(JSON.stringify({'request': params}))
+          http.send(JSON.stringify({'request': params}))
         }, 10)
       })
     },
