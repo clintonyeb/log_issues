@@ -19,7 +19,6 @@
           <option value=1>Warning</option>
           <option value=2>Error</option>
         </select>
-        {{ selectedtext }}
     </b-modal>
   </ol>  
 </template>

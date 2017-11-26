@@ -1,16 +1,19 @@
 <template>
   <div>
-<div style='overflow: auto;' v-bind:style="stylelogs">
-        <table  class="table" >
-          <thead  class="thead-inverse">
-            <tr >  
-              
+        <div >
+        <table  class="table" v-bind:style="headertable">
+          <thead class="thead-inverse">
+            <tr>               
               <th>Logs  </th>
                <th ></th>
                <th ></th>
                <th ></th>
             </tr>
           </thead>
+        </table>
+      </div>
+        <div style='overflow: auto;' v-bind:style="stylelogs">
+        <table class="table">
           <tbody>
             <tr v-for="(n,index) in logs" >
                 <td v-bind:style="showselector">
@@ -41,10 +44,11 @@
             </tr>
           </tbody>
         </table>
-      </div>
+       </div>
           
 <div v-bind:style="styleissues">
-<table class="table">
+<div>
+<table class="table" v-bind:style="headertable">
           <thead  class="thead-inverse" >
             <tr>
               
@@ -53,6 +57,10 @@
               <th style="text-align: center;"><button type="button"  class="btn btn-outline-danger"  @click="toggle()"><i v-bind:class="minclass"></i></button></th>
             </tr>
           </thead>
+</table>
+</div>
+<div>
+  <table class="table">
           <tbody>
             <tr v-for="item in tableItems">
               
@@ -66,11 +74,9 @@
             
           </tbody>
         </table>
-
-      </div><!--/.col-->
+</div>
+    </div><!--/.col-->
     </div><!--/.row-->
-  </div>
-
 
 </template>
 
@@ -96,6 +102,11 @@ export default {
         overflow: 'auto',
         top: '18%',
         position: 'fixed'
+      },
+      headertable: {
+        width: '82%',
+        position: 'fixed',
+        overflow: 'auto'
       },
       selectbutton () {
         if (this.$store.state.savelog === true) {
