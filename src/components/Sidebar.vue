@@ -218,7 +218,7 @@ export default {
     }
   },
   beforeMount () {
-    // this.get_user_info()
+    this.get_user_info()
   }
 }
 </script>

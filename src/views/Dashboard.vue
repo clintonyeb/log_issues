@@ -19,13 +19,13 @@
                 <td v-bind:style="showselector">
                
                 <label class="form-check-label">
-                <input @click="savelogs(index,n.log_text_long)" type="checkbox" class="form-check-input">
+                <input @click="savelogs(index,n.message)" type="checkbox" class="form-check-input">
                 </label>
               
                 </td>
 
-                <td ><button type="button" @click="load_issues"><i class="fa fa-angle-double-down"></i></button></td>
-              <td >{{ n.log_text_long }}</td>
+                <td ><b-button v-bind:variant=get_class(n.classification_info) @click="load_issues"><i class="fa fa-angle-double-down"></i></b-button></td>
+              <td >{{ n.message }}</td>
             
               <td >
               <div class="btn-group">
@@ -181,19 +181,19 @@ export default {
     },
     expand_issues () {
       this.styleissues.height = '30%'
-      this.stylelogs.height = '50%'
+      this.stylelogs.height = '48%'
       this.minclass = 'fa fa-caret-down fa-lg'
     },
     get_class (classification) {
       classification = JSON.parse(classification)
       if (classification.classification_type === -1) {
-        return 'btn btn-outline-secondary active'
+        return 'primary'
       } else if (classification.classification_type === 0) {
-        return 'btn btn-outline-info active'
+        return 'secondary'
       } else if (classification.classification_type === 1) {
-        return 'btn btn-outline-warning active'
+        return 'warning'
       } else if (classification.classification_type === 2) {
-        return 'btn btn-outline-danger active'
+        return 'danger'
       }
     },
     get_logs () {
@@ -210,9 +210,9 @@ export default {
       })
     },
     savelogs (index, message) {
-      this.logstosave[index] = {
+      this.logstosave.push({
         log_text: message
-      }
+      })
     }
   },
   computed: {
@@ -225,7 +225,7 @@ export default {
     }
   },
   created () {
-    this.get_logs()
+    // this.get_logs() //Using dummy logstosave
   }
 }
 </script>

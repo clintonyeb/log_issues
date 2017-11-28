@@ -5,7 +5,7 @@
     <div class="float-right">
     <label class="switch switch-icon switch-pill switch-primary">
             <input @click="pauselog" type="checkbox" class="switch-input" checked="">
-            <span class="switch-label" data-on="live" data-off=""></span>
+            <span class="switch-label" data-on="live " data-off=""></span>
             <span class="switch-handle"></span>
           </label>   
     </div>
@@ -47,12 +47,12 @@ export default {
     },
     pauselog () {
       if (this.clicks === 0) {
-        // this.$store.dispatch('deleteSocket')
+        this.$store.dispatch('deleteSocket')
         this.clicks = 1
         this.enablesave = ''
         this.$store.state.enablesavelogs = true
       } else {
-        // this.connect_data(this.$store.state.currentSocket)
+        this.connect_data(this.$store.state.currentSocket)
         this.clicks = 0
         this.enablesave = 'display:none;'
         this.$store.state.enablesavelogs = false
@@ -61,7 +61,7 @@ export default {
     savelogsapi () {
       var request = {
         classification_type: parseInt(this.selectedtext),
-        log_id: 187,
+        log_id: this.$store.state.currentLog,
         logList: this.logstosave
       }
       console.log(request)

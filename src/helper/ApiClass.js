@@ -13,13 +13,13 @@ export const store = new Vuex.Store({
   state: {
     url: 'http://tailsensesvc-env.izvbyfxjqn.us-east-2.elasticbeanstalk.com',
     version: 'v1',
-    url2: 'http://ec2-18-220-63-112.us-east-2.compute.amazonaws.com:8080/Javemonitor/webresources/',
+    url2: 'http://ec2-18-217-69-135.us-east-2.compute.amazonaws.com:8080/Javemonitor/webresources/',
     currentLog: '',
     logpath: '',
     enablesavelogs: false,
     socketCollection: [],
     currentSocket: '',
-    baseSocket: 'ws://ec2-18-220-63-112.us-east-2.compute.amazonaws.com:8080/Javemonitor/datachannel/'
+    baseSocket: 'ws://ec2-18-217-69-135.us-east-2.compute.amazonaws.com:8080/Javemonitor/datachannel/'
   },
   actions: {
     addSocket ({context, state}, socketurl) {
@@ -44,11 +44,12 @@ export const store = new Vuex.Store({
         var dataObject = JSON.parse(event.data)
         if (params.dataArray.length <= params.length) {
           params.dataArray.push(dataObject)
-          console.log(dataObject)
         } else {
           params.dataArray.shift()
-          params.dataArray.push(dataObject.message)
+          params.dataArray.push(dataObject)
         }
+        console.log(dataObject.toString())
+        console.log(dataObject.classification_info)
       }
     },
     authenticate ({context, state}, params) {

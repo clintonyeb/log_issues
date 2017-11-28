@@ -11,7 +11,7 @@ export const WebSocketCollection = {
         console.log('Connection opened successfully with the server')
       }
       this.socketCollection[socketurl].onclose = function (event) {
-        console.log('Connection close successfully with the server')
+        console.log('Connection closed successfully with the server')
       }
     },
     deleteSocket (socketurl) {
@@ -25,7 +25,7 @@ export const WebSocketCollection = {
     attachListToSocket (socketurl, dataArray, length) {
       this.socketCollection[socketurl].onmessage = function (event) {
         var dataObject = JSON.parse(event.data)
-        console.log(dataObject)
+        console.log(dataObject.message)
         if (dataArray.length <= length) {
           dataArray.push(dataObject.message)
         } else {
