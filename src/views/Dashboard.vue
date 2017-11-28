@@ -1,6 +1,6 @@
 <template>
   <div>
-        <div >
+        <div>
         <table  class="table" v-bind:style="headertable">
           <thead class="thead-inverse">
             <tr>               
@@ -24,10 +24,10 @@
               
                 </td>
 
-                <td ><b-button v-bind:variant=get_class(n.classification_info) @click="load_issues"><i class="fa fa-angle-double-down"></i></b-button></td>
+                <td ><b-button v-bind:variant=get_class(n.classification_info) @click="load_issues"><i class="fa fa-link"></i></b-button></td>
               <td >{{ n.message }}</td>
             
-              <td >
+              <!-- <td >
               <div class="btn-group">
               <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                <i class="fa fa-link fa-lg"></i>
@@ -40,7 +40,7 @@
               <a class="dropdown-item" href="#">Separated link</a>
               </div>
               </div>
-              </td>
+              </td> -->
             </tr>
           </tbody>
         </table>

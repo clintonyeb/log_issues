@@ -1,7 +1,7 @@
 <template>
   <ol class="breadcrumb">
     <li ><span class="active">{{ list }}</span>
-    <span ><b-button  v-bind:style="enablesave + 'margin-left: 28%;'" type="button" variant="primary" @click="primaryModal = true,showlogstosave()">Save Logs</b-button></span>
+    <span ><b-button  v-bind:style="enablesave + 'margin-left: 72%;'" type="button" variant="primary" @click="primaryModal = true,showlogstosave()">Save Logs</b-button></span>
     <div class="float-right">
     <label class="switch switch-icon switch-pill switch-primary">
             <input @click="pauselog" type="checkbox" class="switch-input" checked="">
