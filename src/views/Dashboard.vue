@@ -19,14 +19,13 @@
                 <td v-bind:style="showselector">
                
                 <label class="form-check-label">
-                <input @click="savelogs(index,n.message)" type="checkbox" class="form-check-input">
+                <input @click="savelogs()" type="checkbox" class="form-check-input" v-bind:value=n v-model="checkedLogs">
                 </label>
               
                 </td>
 
                 <td ><b-button v-bind:variant=get_class(n.classification_info) @click="load_issues"><i class="fa fa-link"></i></b-button></td>
-              <td >{{ n.message }}</td>
-            
+              <td >{{ n.message }}</td>            
               <!-- <td >
               <div class="btn-group">
               <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -50,8 +49,7 @@
 <div>
 <table class="table" v-bind:style="headertable">
           <thead  class="thead-inverse" >
-            <tr>
-              
+            <tr>             
               <th>Issues</th>
               <th>Status</th>
               <th style="text-align: center;"><button type="button"  class="btn btn-outline-danger"  @click="toggle()"><i v-bind:class="minclass"></i></button></th>
@@ -62,8 +60,7 @@
 <div>
   <table class="table">
           <tbody>
-            <tr v-for="item in tableItems">
-              
+            <tr v-for="item in tableItems">              
               <td><span>{{item.issue_header}}</span><br>
               <div style="white-space: pre;">
               <small>{{item.issue_resolution}}</small>
@@ -73,7 +70,7 @@
             </tr>
             
           </tbody>
-        </table>
+  </table>
 </div>
     </div><!--/.col-->
     </div><!--/.row-->
@@ -94,6 +91,7 @@ export default {
   data: function () {
     return {
       i: '',
+      checkedLogs: [],
       nav: nav.items,
       // showselector: 'display:none;',
       stylelogs: {
@@ -209,10 +207,9 @@ export default {
         }
       })
     },
-    savelogs (index, message) {
-      this.logstosave.push({
-        log_text: message
-      })
+    savelogs () {
+      this.logstosave.splice(0, this.logstosave.length)
+      this.logstosave.push.apply(this.logstosave, this.checkedLogs)
     }
   },
   computed: {

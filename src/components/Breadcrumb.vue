@@ -58,11 +58,26 @@ export default {
         this.$store.state.enablesavelogs = false
       }
     },
+    create_save_logs_array () {
+      var returnObject = []
+      for (var i = 0; i < this.logstosave.length; i++) {
+        console.log(this.logstosave[i])
+        var jobj = this.logstosave[i]
+        var obj = {}
+        obj.log_text = jobj.message
+        var classificationInfo = jobj.classification_info
+        var obj3 = JSON.parse(classificationInfo)
+        obj.classification_id = obj3.classification_id
+        returnObject.push(obj)
+      }
+      return returnObject
+    },
     savelogsapi () {
+      var logList = this.create_save_logs_array()
       var request = {
         classification_type: parseInt(this.selectedtext),
         log_id: this.$store.state.currentLog,
-        logList: this.logstosave
+        logList: logList
       }
       console.log(request)
       this.$store.dispatch('save_log', request).then(response => {
