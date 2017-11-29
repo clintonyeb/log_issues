@@ -1,6 +1,7 @@
 <template>
   <ol class="breadcrumb">
     <li ><span class="active">{{ list }}</span>
+    <notifications position="top center" width = "300"/>
     <span ><b-button  v-bind:style="enablesave + 'margin-left: 72%;'" type="button" variant="primary" @click="primaryModal = true,showlogstosave()">Save Logs</b-button></span>
     <div class="float-right">
     <label class="switch switch-icon switch-pill switch-primary">
@@ -10,12 +11,10 @@
           </label>   
     </div>
     </li>
-    <li><span class="active" style='margin-left: 28%;'> {{saveresponse}} </span></li>
         <b-modal title="Save and classify logs " class="modal-primary" v-model="primaryModal" @ok="primaryModal = false,savelogsapi()">
         Classify selected logs as :  
         <select v-model="selectedtext">
-          <option  value=-1>Anomalies</option>
-          <option value=0>Info</option>
+          <option value=0 selected>Info</option>
           <option value=1>Warning</option>
           <option value=2>Error</option>
         </select>
@@ -87,9 +86,15 @@ export default {
         console.log(error)
       }).then(data => {
         if (data.Status === true) {
-          this.saveresponse = 'Logs Saved successfully'
+          this.$notify({
+            type: 'success',
+            text: 'Saved and classified logs successfully'
+          })
         } else {
-          this.saveresponse = 'Couldnt save the logs'
+          this.$notify({
+            type: 'error',
+            text: 'Failed to save logs'
+          })
         }
       })
     },

@@ -7,10 +7,12 @@ import router from './router'
 import { store } from './helper/ApiClass'
 import VueResource from 'vue-resource'
 import VueSession from 'vue-session'
+import Notifications from 'vue-notification'
 
 Vue.use(VueSession)
 Vue.use(BootstrapVue)
 Vue.use(VueResource)
+Vue.use(Notifications)
 
 Vue.http.options.xhr = {withCredentials: true}
 Vue.http.options.emulateJSON = true
