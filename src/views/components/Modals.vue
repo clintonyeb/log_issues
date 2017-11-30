@@ -84,6 +84,22 @@
       cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
       proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
     </b-modal>
+      <b-modal title="Save and classify logs " class="modal-primary" v-model="saveLogsModal" @ok="saveLogsModal = false,savelogsapi()">
+        Classify selected logs as :  
+        <select v-model="selectedtext">
+          <option value=0 selected>Info</option>
+          <option value=1>Warning</option>
+          <option value=2>Error</option>
+        </select>
+    </b-modal>
+       <b-modal title="Link logs to issue" class="modal-primary" v-model="linkLogsModal" @ok="primaryModal = false,savelogsapi()">
+        Classify selected logs as :  
+        <select v-model="selectedtext">
+          <option value=0 selected>Info</option>
+          <option value=1>Warning</option>
+          <option value=2>Error</option>
+        </select>
+    </b-modal>
   </div>
 
 </template>
@@ -100,7 +116,9 @@ export default {
       successModal: false,
       warningModal: false,
       dangerModal: false,
-      infoModal: false
+      infoModal: false,
+      saveLogsModal: false,
+      linkLogsModal: false
     }
   }
 }

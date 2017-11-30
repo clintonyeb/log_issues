@@ -1,8 +1,81 @@
 <template>
   <ol class="breadcrumb">
+     </b-modal>
+      <b-modal title="Save and classify logs " class="modal-primary" v-model="saveLogsModal" @ok="saveLogsModal = false,savelogsapi()">
+        Classify selected logs as :  
+        <select v-model="selectedtext">
+          <option value=0 selected>Info</option>
+          <option value=1>Warning</option>
+          <option value=2>Error</option>
+        </select>
+    </b-modal>
+       <b-modal title="Link logs to issue" class="modal-primary" v-model="linkLogsModal" @ok="linkLogsModal  = false,savelogsapi()">  
+   <!--     <form class="form-inline">
+        <div class="row">
+        <div class="col-lg-12">
+        <b-form-fieldset>
+        <b-form-input type="value" id="name" placeholder="Enter issue id"></b-form-input>
+        <b-button  v-bind:style="enablesave" type="button" variant="primary" @click="linkLogsModal = true,showlogstosave()"></i>&nbsp;Load Issue</b-button>
+        </b-form-fieldset>
+        </div>
+        </div>
+        <hr>
+        <br>
+        <br>
+        <div></div>
+        
+</form> -->
+    <b-card>
+          <div class="row">
+            <div class="col-sm-12">
+              <b-form-fieldset label="">
+                 <b-input-group>
+              <b-form-input type="value" placeholder="Issue Id"></b-form-input>
+              <!-- Attach Right button -->
+              <b-input-group-button slot="right">
+                <b-button variant="primary">Search</b-button>
+              </b-input-group-button>
+            </b-input-group>
+          </b-form-fieldset>
+              </b-form-fieldset>
+            </div>
+          </div><!--/.row-->
+          <div class="row">
+            <div class="col-sm-12">
+              <b-form-fieldset label="Issue Title">
+                <b-form-input disabled type="textarea" id="title" placeholder="" :rows="2" ></b-form-input>
+              </b-form-fieldset>
+            </div>
+          </div><!--/.row-->
+          <div class="row">
+            <div class="col-sm-12">
+              <b-form-fieldset label="Description">
+                <b-form-input disabled type="textarea" id="issue_description" placeholder="" :rows="3" ></b-form-input>
+              </b-form-fieldset>
+            </div>
+          </div><!--/.row-->
+             <div class="row">
+            <div class="col-sm-12">
+              <b-form-fieldset label="Status">
+                <b-form-input disabled type="text" id="issue_status" placeholder=""></b-form-input>
+              </b-form-fieldset>
+            </div>
+          </div><!--/.row-->
+          <div class="row">
+            <div class="col-sm-12">
+              <b-form-fieldset label="Resolution">
+                <b-form-input  disabled type="textarea" id="issue_resolution" placeholder="" :rows="5"></b-form-input>
+              </b-form-fieldset>
+            </div>
+          </div><!--/.row-->
+         
+        </b-card>
+      
+    </b-modal>
     <li ><span class="active">{{ list }}</span>
     <notifications position="top center" width = "300"/>
-    <span ><b-button  v-bind:style="enablesave + 'margin-left: 72%;'" type="button" variant="primary" @click="primaryModal = true,showlogstosave()">Save Logs</b-button></span>
+     <b-button  v-bind:style="enablesave + 'margin-left: 65%;'" type="button" variant="outline-primary" @click="saveLogsModal = true,showlogstosave()"><i class="fa fa-th"></i>&nbsp;Classify</b-button>
+     <b-button  v-bind:style="enablesave" type="button" variant="outline-primary" @click="linkLogsModal = true,showlogstosave()"><i class="fa fa-link"></i>&nbsp;Link Issues</b-button>
     <div class="float-right">
     <label class="switch switch-icon switch-pill switch-primary">
             <input @click="pauselog" type="checkbox" class="switch-input" checked="">
@@ -11,18 +84,11 @@
           </label>   
     </div>
     </li>
-        <b-modal title="Save and classify logs " class="modal-primary" v-model="primaryModal" @ok="primaryModal = false,savelogsapi()">
-        Classify selected logs as :  
-        <select v-model="selectedtext">
-          <option value=0 selected>Info</option>
-          <option value=1>Warning</option>
-          <option value=2>Error</option>
-        </select>
-    </b-modal>
   </ol>  
 </template>
 <script>
 import nav from '../_nav'
+
 export default {
   props: {
     list: ''
@@ -32,7 +98,8 @@ export default {
       clicks: 0,
       selectedtext: '',
       enablesave: 'display:none;',
-      primaryModal: false,
+      linkLogsModal: false,
+      saveLogsModal: false,
       logs: nav.logs,
       saveresponse: '',
       logstosave: nav.logstosave
@@ -64,9 +131,9 @@ export default {
         var jobj = this.logstosave[i]
         var obj = {}
         obj.log_text = jobj.message
-        var classificationInfo = jobj.classification_info
-        var obj3 = JSON.parse(classificationInfo)
-        obj.classification_id = obj3.classification_id
+        // var classificationInfo = jobj.classification_info
+        // var obj3 = JSON.parse(classificationInfo)
+        // obj.classification_id = obj3.classification_id
         returnObject.push(obj)
       }
       return returnObject
