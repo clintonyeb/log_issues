@@ -9,7 +9,7 @@
           <option value=2>Error</option>
         </select>
     </b-modal>
-       <b-modal title="Link logs to issue" class="modal-primary" v-model="linkLogsModal" @ok="linkLogsModal  = false,savelogsapi()">  
+       <b-modal title="Link logs to issue" class="modal-primary" v-model="linkLogsModal" @ok="linkLogsModal  = false,linklogstoissue()">  
    <!--     <form class="form-inline">
         <div class="row">
         <div class="col-lg-12">
@@ -30,10 +30,10 @@
             <div class="col-sm-12">
               <b-form-fieldset label="">
                  <b-input-group>
-              <b-form-input type="value" placeholder="Issue Id"></b-form-input>
+              <b-form-input type="value" placeholder="Issue Id" v-model=issue_id></b-form-input>
               <!-- Attach Right button -->
               <b-input-group-button slot="right">
-                <b-button variant="primary">Search</b-button>
+                <b-button variant="primary" @click=get_issue_info()>Search</b-button>
               </b-input-group-button>
             </b-input-group>
           </b-form-fieldset>
@@ -43,28 +43,36 @@
           <div class="row">
             <div class="col-sm-12">
               <b-form-fieldset label="Issue Title">
-                <b-form-input disabled type="textarea" id="title" placeholder="" :rows="2" ></b-form-input>
+              <b-card>
+                 {{issue_info.title}}
+              </b-card>
               </b-form-fieldset>
             </div>
           </div><!--/.row-->
           <div class="row">
             <div class="col-sm-12">
               <b-form-fieldset label="Description">
-                <b-form-input disabled type="textarea" id="issue_description" placeholder="" :rows="3" ></b-form-input>
+                <b-card>
+                  {{issue_info.description}}
+                </b-card>
               </b-form-fieldset>
             </div>
           </div><!--/.row-->
              <div class="row">
             <div class="col-sm-12">
               <b-form-fieldset label="Status">
-                <b-form-input disabled type="text" id="issue_status" placeholder=""></b-form-input>
+                <b-card>
+                {{issue_info.status}}
+                </b-card>
               </b-form-fieldset>
             </div>
           </div><!--/.row-->
           <div class="row">
             <div class="col-sm-12">
               <b-form-fieldset label="Resolution">
-                <b-form-input  disabled type="textarea" id="issue_resolution" placeholder="" :rows="5"></b-form-input>
+                <b-card>
+                {{issue_info.resolution}}
+                </b-card>
               </b-form-fieldset>
             </div>
           </div><!--/.row-->
@@ -102,7 +110,9 @@ export default {
       saveLogsModal: false,
       logs: nav.logs,
       saveresponse: '',
-      logstosave: nav.logstosave
+      logstosave: nav.logstosave,
+      issue_info: {},
+      issue_id: 0
     }
   },
   methods: {
@@ -124,6 +134,35 @@ export default {
         this.$store.state.enablesavelogs = false
       }
     },
+    get_issue_info () {
+      this.$store.dispatch('get_issue', {oauth: this.$session.get('oauth'), issue_id: this.issue_id}).then(response => {
+        console.log(response.id)
+        console.log(this.issue_id)
+        if (response.id.toString() === this.issue_id.toString()) {
+          console.log('painting data')
+          this.issue_info.title = response.issue_header
+          this.issue_info.description = response.issue_description
+          this.issue_info.resolution = response.issue_resolution
+          if (response.status.toString() === '0') {
+            this.issue_info.status = 'Open'
+          } else if (response.status.toString() === '1') {
+            this.issue_info.status = 'Questioned'
+          } else if (response.status.toString() === '2') {
+            this.issue_info.status = 'Working'
+          } else if (response.status.toString() === '3') {
+            this.issue_info.status = 'Fixed'
+          } else if (response.status.toString() === '4') {
+            this.issue_info.status = 'Resolved'
+          }
+          this.$forceUpdate()
+        }
+      },
+      error => {
+        console.log(error)
+      }).then(data => {
+        console.log(data)
+      })
+    },
     create_save_logs_array () {
       var returnObject = []
       for (var i = 0; i < this.logstosave.length; i++) {
@@ -134,6 +173,20 @@ export default {
         // var classificationInfo = jobj.classification_info
         // var obj3 = JSON.parse(classificationInfo)
         // obj.classification_id = obj3.classification_id
+        returnObject.push(obj)
+      }
+      return returnObject
+    },
+    create_link_logs_array () {
+      var returnObject = []
+      for (var i = 0; i < this.logstosave.length; i++) {
+        console.log(this.logstosave[i])
+        var jobj = this.logstosave[i]
+        var obj = {}
+        obj.message_text = jobj.message
+        var classificationInfo = jobj.classification_info
+        var obj3 = JSON.parse(classificationInfo)
+        obj.classification_id = obj3.classification_id
         returnObject.push(obj)
       }
       return returnObject
@@ -161,6 +214,33 @@ export default {
           this.$notify({
             type: 'error',
             text: 'Failed to save logs'
+          })
+        }
+      })
+    },
+    linklogstoissue () {
+      var logList = this.create_link_logs_array()
+      var request = {
+        issue_id: parseInt(this.issue_id),
+        log_id: this.$store.state.currentLog,
+        logInfoList: logList
+      }
+      console.log(request)
+      this.$store.dispatch('link_logs_to_issue', request).then(response => {
+        return response
+      },
+      error => {
+        console.log(error)
+      }).then(data => {
+        if (data.Status === true) {
+          this.$notify({
+            type: 'success',
+            text: 'Logs linked to issue successfully'
+          })
+        } else {
+          this.$notify({
+            type: 'error',
+            text: 'Failed to link logs'
           })
         }
       })

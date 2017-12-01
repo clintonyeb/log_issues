@@ -94,6 +94,28 @@ export const store = new Vuex.Store({
         }, 10)
       })
     },
+    get_issue: ({context, state}, params) => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          var returndata = ''
+          var http = new XMLHttpRequest()
+          var link = 'issues/' + params.issue_id
+          var url = state.url + '/' + state.version + '/' + link
+          // var params = 'lorem=ipsum&name=binny'
+          http.open('GET', url, true)
+          http.setRequestHeader('content-type', 'application/json')
+          http.setRequestHeader('accept', 'application/json')
+          http.setRequestHeader('Authorization', params.oauth)
+          http.onreadystatechange = function () {
+            if (http.readyState === 4 && http.status === 200) {
+              returndata = http.responseText
+              resolve(JSON.parse(returndata))
+            }
+          }
+          http.send()
+        }, 10)
+      })
+    },
     get_random_issues ({context, state}, oauthkey) {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
@@ -236,7 +258,8 @@ export const store = new Vuex.Store({
               resolve(JSON.parse(returndata))
             }
           }
-          http.send(JSON.stringify({'log_id': 213, 'log_text': '[Fri Dec 16 01:46:23 2005] [error] [client 1.2.3.4] Directory index forbidden by rule: /home/test/'}
+          console.log(JSON.stringify(params))
+          http.send(JSON.stringify(params
           ))
         }, 10)
       })
@@ -257,9 +280,8 @@ export const store = new Vuex.Store({
               resolve(JSON.parse(returndata))
             }
           }
-          http.send(JSON.stringify(
-            {'request': {'issue_id': 2, 'log_id': 213, 'logInfoList': [{'classification_id': -1, 'message_text': '04-May-2012 08:38:47 com.sun.enterprise.admin.servermgmt.launch.ASLauncher buildCommand INFO: C:/Dev/jdk/1.6/1.6.0_19\binjava'}, {'classification_id': -1, 'message_text': '[Fri Dec 16 01:46:23 2005] [error] [client 1.2.3.4] Directory index forbidden by rule: /home/test/'}]}}
-          ))
+          console.log(JSON.stringify({'request': params}))
+          http.send(JSON.stringify({'request': params}))
         }, 10)
       })
     }

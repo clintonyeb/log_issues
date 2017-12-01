@@ -12,7 +12,10 @@
           </thead>
         </table>
       </div>
+
         <div style='overflow: auto;' v-bind:style="stylelogs">
+        <br>
+      
         <table class="table">
           <tbody>
             <tr v-for="(n,index) in logs" >
@@ -24,7 +27,7 @@
               
                 </td>
 
-                <td ><b-button v-bind:variant=get_class(n.classification_info) @click="load_issues"><i class="fa fa-link"></i></b-button></td>
+                <td ><b-button v-bind:variant=get_class(n.classification_info) @click="load_issues(n.message)"><i class="fa fa-link"></i></b-button></td>
               <td >{{ n.message }}</td>            
               <!-- <td >
               <div class="btn-group">
@@ -58,6 +61,9 @@
 </table>
 </div>
 <div>
+<br>
+<br>
+<br>
   <table class="table">
           <tbody>
             <tr v-for="item in tableItems">              
@@ -158,16 +164,24 @@ export default {
       }
       return $variant
     },
-    load_issues () {
-      this.$store.dispatch('get_random_issues', this.$session.get('oauth')).then(response => {
+    load_issues (messageText) {
+      var params = {}
+      params.log_id = this.$store.state.currentLog
+      params.log_text = messageText
+      this.$store.dispatch('get_related_issues', params).then(response => {
+        console.log(response)
         return response
       },
       error => {
         console.log(error)
       }).then(data => {
-        this.tableItems = []
-        for (let key in data) {
-          this.tableItems.push(data[key])
+        this.tableItems.splice(0, this.tableItems.length)
+        console.log(data.Issues)
+        var issues = JSON.parse(data.Issues)
+        console.log(issues)
+        for (var i = 0; i < issues.length; i++) {
+          console.log('Pushing:' + i + issues[i])
+          this.tableItems.push(issues[i])
         }
       })
       this.expand_issues()
@@ -203,13 +217,14 @@ export default {
       }).then(data => {
         for (let key in data) {
           this.logs.push(data[key])
-          // console.log(data[key])
+          console.log(data[key])
         }
       })
     },
     savelogs () {
       this.logstosave.splice(0, this.logstosave.length)
       this.logstosave.push.apply(this.logstosave, this.checkedLogs)
+      console.log(this.logstosave)
     }
   },
   computed: {
@@ -217,6 +232,7 @@ export default {
       if (this.$store.state.enablesavelogs === true) {
         return ''
       } else {
+        this.checkedLogs = []
         return 'display:none;'
       }
     }
