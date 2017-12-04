@@ -25,10 +25,10 @@ export const store = new Vuex.Store({
     addSocket ({context, state}, socketurl) {
       state.socketCollection[socketurl] = new WebSocket(socketurl)
       state.socketCollection[socketurl].onopen = function (event) {
-        console.log('Connection opened successfully with the server')
+        console.log('Connection opened successfully with the server:' + socketurl)
       }
       state.socketCollection[socketurl].onclose = function (event) {
-        console.log('Connection close successfully with the server')
+        console.log('Connection closed successfully with the server' + socketurl)
       }
     },
     deleteSocket ({context, state}) {
@@ -48,8 +48,6 @@ export const store = new Vuex.Store({
           params.dataArray.shift()
           params.dataArray.push(dataObject)
         }
-        console.log(dataObject.toString())
-        console.log(dataObject.classification_info)
       }
     },
     authenticate ({context, state}, params) {

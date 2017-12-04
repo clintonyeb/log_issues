@@ -4,7 +4,8 @@
       <b-modal title="Save and classify logs " class="modal-primary" v-model="saveLogsModal" @ok="saveLogsModal = false,savelogsapi()">
         Classify selected logs as :  
         <select v-model="selectedtext">
-          <option value=0 selected>Info</option>
+          <option value=-1 selected>Anomaly</option>
+          <option value=0>Info</option>
           <option value=1>Warning</option>
           <option value=2>Error</option>
         </select>
@@ -136,10 +137,7 @@ export default {
     },
     get_issue_info () {
       this.$store.dispatch('get_issue', {oauth: this.$session.get('oauth'), issue_id: this.issue_id}).then(response => {
-        console.log(response.id)
-        console.log(this.issue_id)
         if (response.id.toString() === this.issue_id.toString()) {
-          console.log('painting data')
           this.issue_info.title = response.issue_header
           this.issue_info.description = response.issue_description
           this.issue_info.resolution = response.issue_resolution
