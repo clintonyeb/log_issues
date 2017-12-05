@@ -1,6 +1,5 @@
 <template>
   <div class="app">
-    <AppHeader/>
     <div class="app-body">
       <Sidebar :navItems="nav"/>
       <main class="main">
